@@ -447,6 +447,7 @@
   <nav>
     <div class="logo">North<span>Zaika</span> Events</div>
     <ul>
+      <li><a href="#home">Home</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#services">Services</a></li>
       <li><a href="#gallery">Gallery</a></li>
@@ -693,47 +694,45 @@
           </div>
         </div>
       </div>
-      <div>
-        <div class="contact-form" id="contactForm">
-          <div class="form-row">
-            <div class="form-group">
-              <label>Your Name</label>
-              <input type="text" placeholder="Full name" />
-            </div>
-            <div class="form-group">
-              <label>Phone Number</label>
-              <input type="tel" placeholder="+91 XXXXX XXXXX" />
-            </div>
+      <form class="contact-form" id="contactForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" name="name" placeholder="Full name" />
           </div>
           <div class="form-group">
-            <label>Email Address</label>
-            <input type="email" placeholder="you@example.com" />
-          </div>
-          <div class="form-group">
-            <label>Event Type</label>
-            <select>
-              <option value="">Select event type</option>
-              <option>Wedding</option>
-              <option>Corporate Event</option>
-              <option>Birthday Party</option>
-              <option>Anniversary</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Event Date</label>
-            <input type="date" />
-          </div>
-          <div class="form-group">
-            <label>Tell Us About Your Vision</label>
-            <textarea placeholder="Describe your dream event, guest count, preferences..."></textarea>
-          </div>
-          <button class="btn-submit" onclick="handleSubmit()">Send Enquiry →</button>
-          <div id="formMsg" style="display:none; color:var(--gold); font-size:0.85rem; margin-top:0.5rem;">
-            ✓ Thank you! We'll be in touch within 24 hours.
+            <label>Phone Number</label>
+            <input type="tel" name="phone" placeholder="+91 XXXXX XXXXX" />
           </div>
         </div>
-      </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" name="email" placeholder="you@example.com" />
+        </div>
+        <div class="form-group">
+          <label>Event Type</label>
+          <select name="eventType">
+            <option value="">Select event type</option>
+            <option>Wedding</option>
+            <option>Corporate Event</option>
+            <option>Birthday Party</option>
+            <option>Anniversary</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Event Date</label>
+          <input type="date" name="eventDate" />
+        </div>
+        <div class="form-group">
+          <label>Tell Us About Your Vision</label>
+          <textarea name="message" placeholder="Describe your dream event, guest count, preferences..."></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Send Enquiry →</button>
+        <div id="formMsg" style="display:none; color:var(--gold); font-size:0.85rem; margin-top:0.5rem;">
+          ✓ Thank you! We'll be in touch within 24 hours.
+        </div>
+      </form>
     </div>
   </section>
 
@@ -750,43 +749,71 @@
   </footer>
 
   <script>
-    //Public Key
- (function () {
-  emailjs.init("f5QMCAEmxAiR58eAk");
-})();
-
-document.getElementById("contactForm").addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const form = e.target;
-
-  const templateParams = {
-    name: form.querySelector('input[name="name"]').value,
-    email: form.querySelector('input[name="email"]').value,
-    phone: form.querySelector('input[name="phone"]').value,
-    message: form.querySelector('textarea[name="message"]').value
-  };
-
-  emailjs.send("service_q2a7qbw", "template_sb7r5ei", templateParams)
-    .then(function (response) {
-
-      console.log("SUCCESS!", response.status);
-
-      document.getElementById("formMsg").style.display = "block";
-      document.querySelector(".btn-submit").textContent = "Sent ✓";
-      document.querySelector(".btn-submit").style.background = "#4a7c59";
-
-      form.reset();
-
-    })
-    .catch(function (error) {
-      console.log("FAILED...", error);
+    // Custom Cursor
+    document.addEventListener('mousemove', (e) => {
+      const cursor = document.getElementById('cursor');
+      const cursorRing = document.getElementById('cursorRing');
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      cursorRing.style.left = e.clientX + 'px';
+      cursorRing.style.top = e.clientY + 'px';
     });
-});
 
+    // Testimonials
+    const testimonials = [
+      {
+        text: "NorthZaika transformed our wedding into something beyond our wildest dreams. Every detail was perfect — we still receive compliments from guests months later.",
+        author: "— Priya & Arjun Sharma, Wedding 2024"
+      },
+      {
+        text: "NorthZaika made our corporate gala unforgettable. The attention to detail was impeccable, and our clients were thoroughly impressed.",
+        author: "— Rajesh Kumar, CEO TechCorp"
+      },
+      {
+        text: "From start to finish, they handled everything for our anniversary party. It was magical, and we couldn't have asked for better service.",
+        author: "— Meera & Vikram, Anniversary 2024"
+      }
+    ];
+
+    function setTestimonial(index) {
+      document.getElementById("testimonialText").textContent = testimonials[index].text;
+      document.getElementById("testimonialAuthor").textContent = testimonials[index].author;
+      document.querySelectorAll('.dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+    }
+
+    // EmailJS
+    (function () {
+      emailjs.init("f5QMCAEmxAiR58eAk");
+    })();
+
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const form = e.target;
+
+      const templateParams = {
+        name: form.querySelector('input[name="name"]').value,
+        email: form.querySelector('input[name="email"]').value,
+        phone: form.querySelector('input[name="phone"]').value,
+        eventType: form.querySelector('select[name="eventType"]').value,
+        eventDate: form.querySelector('input[name="eventDate"]').value,
+        message: form.querySelector('textarea[name="message"]').value
+      };
+
+      emailjs.send("service_q2a7qbw", "template_sb7r5ei", templateParams)
+        .then(function (response) {
+          console.log("SUCCESS!", response.status);
+          document.getElementById("formMsg").style.display = "block";
+          document.querySelector(".btn-submit").textContent = "Sent ✓";
+          document.querySelector(".btn-submit").style.background = "#4a7c59";
+          form.reset();
+        })
+        .catch(function (error) {
+          console.log("FAILED...", error);
+        });
+    });
   </script>
 </body>
 </html>
-
-
-
