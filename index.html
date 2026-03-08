@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NorthZaika Events — Crafting Unforgettable Moments</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Tenor+Sans&display=swap" rel="stylesheet"/>
+  <script type="text/javascript" src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E8D5A3;
+      --gold-dark: #8B6914;
+      --cream: #FAF7F2;
+      --deep: #0E0B08;
+      --charcoal: #1E1A14;
+      --warm-grey: #6B6460;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--deep);
+      color: var(--cream);
+      font-family: 'Tenor Sans', sans-serif;
+      cursor: none;
+      overflow-x: hidden;
+    }
+
+    /* Custom Cursor */
+    .cursor {
+      width: 12px; height: 12px;
+      background: var(--gold);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+      mix-blend-mode: difference;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.15s ease, width 0.3s, height 0.3s;
+      opacity: 0.6;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.8rem 4rem;
+      background: linear-gradient(to bottom, rgba(14,11,8,0.95), transparent);
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 300; letter-spacing: 0.25em;
+      color: var(--gold-light);
+      text-transform: uppercase;
+    }
+    .logo span { font-style: italic; color: var(--gold); }
+    nav ul { list-style: none; display: flex; gap: 2.5rem; }
+    nav ul li a {
+      color: var(--cream); text-decoration: none;
+      font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+      opacity: 0.8; transition: opacity 0.3s, color 0.3s;
+    }
+    nav ul li a:hover { opacity: 1; color: var(--gold); }
+    .nav-cta {
+      border: 1px solid var(--gold);
+      padding: 0.55rem 1.4rem;
+      color: var(--gold) !important;
+      opacity: 1 !important;
+      transition: background 0.3s !important;
+    }
+    .nav-cta:hover { background: var(--gold) !important; color: var(--deep) !important; }
+
+    /* ─── HERO ─── */
+    .hero {
+      height: 100vh; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1920&q=90');
+      background-size: cover; background-position: center;
+      filter: brightness(0.35);
+      transform: scale(1.05);
+      animation: heroZoom 8s ease forwards;
+    }
+    @keyframes heroZoom { to { transform: scale(1); } }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(14,11,8,0.6) 0%, transparent 60%, rgba(14,11,8,0.7) 100%);
+    }
+    .hero-content {
+      position: relative; text-align: center; padding: 2rem;
+      animation: fadeUp 1.2s ease 0.3s both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-eyebrow {
+      font-size: 0.7rem; letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.5rem;
+      display: flex; align-items: center; justify-content: center; gap: 1rem;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content: ''; display: block; width: 40px; height: 1px; background: var(--gold); opacity: 0.6;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 300; line-height: 1.0;
+      letter-spacing: 0.05em;
+      color: var(--cream);
+      margin-bottom: 0.2rem;
+    }
+    .hero h1 em {
+      font-style: italic; color: var(--gold-light);
+      display: block;
+    }
+    .hero-sub {
+      font-size: 0.85rem; letter-spacing: 0.15em;
+      color: rgba(250,247,242,0.6); margin: 2rem auto 3rem;
+      max-width: 500px; line-height: 1.8;
+    }
+    .hero-btns { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--gold); color: var(--deep);
+      padding: 1rem 2.5rem; text-decoration: none;
+      font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+    .btn-outline {
+      border: 1px solid rgba(250,247,242,0.4); color: var(--cream);
+      padding: 1rem 2.5rem; text-decoration: none;
+      font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase;
+      transition: border-color 0.3s, transform 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      color: rgba(250,247,242,0.4); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      animation: bob 2s ease-in-out infinite;
+    }
+    @keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+    .scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--gold), transparent); }
+
+    /* ─── SECTION SHARED ─── */
+    section { padding: 7rem 4rem; }
+    .section-label {
+      font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .section-label::after { content:''; flex:1; height:1px; background: var(--gold); opacity:0.3; max-width:80px; }
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 300; color: var(--cream); line-height: 1.1;
+    }
+    h2 em { font-style: italic; color: var(--gold-light); }
+
+    /* ─── INTRO ─── */
+    .intro {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+      max-width: 1300px; margin: 0 auto;
+    }
+    .intro-text p {
+      color: rgba(250,247,242,0.65); line-height: 1.9;
+      font-size: 0.95rem; margin-top: 1.5rem;
+    }
+    .intro-text p + p { margin-top: 1rem; }
+    .intro-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2.5rem;
+    }
+    .stat { border-left: 1px solid var(--gold); padding-left: 1.2rem; }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem; font-weight: 300; color: var(--gold); line-height: 1;
+    }
+    .stat-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-grey); margin-top: 0.3rem; }
+    .intro-image {
+      position: relative; aspect-ratio: 3/4;
+    }
+    .intro-image img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .intro-image::before {
+      content: ''; position: absolute;
+      inset: -12px 12px 12px -12px;
+      border: 1px solid var(--gold); opacity: 0.3; z-index: -1;
+    }
+
+    /* ─── SERVICES ─── */
+    .services-section { background: var(--charcoal); }
+    .services-header { text-align: center; max-width: 600px; margin: 0 auto 4rem; }
+    .services-header .section-label { justify-content: center; }
+    .services-header .section-label::after { display: none; }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px; max-width: 1300px; margin: 0 auto;
+    }
+    .service-card {
+      position: relative; aspect-ratio: 4/5; overflow: hidden;
+    }
+    .service-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.7s ease; filter: brightness(0.5);
+    }
+    .service-card:hover img { transform: scale(1.07); filter: brightness(0.3); }
+    .service-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 2rem;
+      background: linear-gradient(to top, rgba(14,11,8,0.95) 0%, transparent 100%);
+      transition: padding 0.4s;
+    }
+    .service-card:hover .service-info { padding-bottom: 2.5rem; }
+    .service-icon { font-size: 1.5rem; margin-bottom: 0.8rem; }
+    .service-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 300; color: var(--cream);
+    }
+    .service-desc {
+      font-size: 0.8rem; color: rgba(250,247,242,0.6); line-height: 1.7;
+      margin-top: 0.8rem; max-height: 0; overflow: hidden;
+      transition: max-height 0.5s ease, opacity 0.4s;
+      opacity: 0;
+    }
+    .service-card:hover .service-desc { max-height: 100px; opacity: 1; }
+    .service-num {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem; color: var(--gold); opacity: 0.7; letter-spacing: 0.1em;
+    }
+
+    /* ─── GALLERY ─── */
+    .gallery-header { text-align: center; margin-bottom: 3.5rem; }
+    .gallery-header .section-label { justify-content: center; }
+    .gallery-header .section-label::after { display: none; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: repeat(3, 280px);
+      gap: 8px; max-width: 1400px; margin: 0 auto;
+    }
+    .g1 { grid-column: 1/6; grid-row: 1/3; }
+    .g2 { grid-column: 6/10; grid-row: 1/2; }
+    .g3 { grid-column: 10/13; grid-row: 1/2; }
+    .g4 { grid-column: 6/9; grid-row: 2/3; }
+    .g5 { grid-column: 9/13; grid-row: 2/3; }
+    .g6 { grid-column: 1/5; grid-row: 3/4; }
+    .g7 { grid-column: 5/9; grid-row: 3/4; }
+    .g8 { grid-column: 9/13; grid-row: 3/4; }
+    .gallery-item {
+      overflow: hidden; position: relative;
+    }
+    .gallery-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.6s ease, filter 0.4s;
+      filter: brightness(0.85);
+    }
+    .gallery-item:hover img { transform: scale(1.06); filter: brightness(1); }
+    .gallery-item::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(201,168,76,0.15), transparent);
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .gallery-item:hover::after { opacity: 1; }
+
+    /* ─── TESTIMONIALS ─── */
+    .testimonials { background: var(--charcoal); text-align: center; }
+    .testimonials-inner { max-width: 800px; margin: 0 auto; }
+    .quote-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 8rem; color: var(--gold); opacity: 0.2;
+      line-height: 0.5; margin-bottom: 1rem; display: block;
+    }
+    .testimonial-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      font-style: italic; font-weight: 300;
+      color: var(--cream); line-height: 1.6;
+    }
+    .testimonial-author {
+      margin-top: 2rem; font-size: 0.7rem;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold);
+    }
+    .testimonial-dots {
+      display: flex; justify-content: center; gap: 0.6rem; margin-top: 2.5rem;
+    }
+    .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--warm-grey); cursor: pointer; transition: background 0.3s, transform 0.3s;
+    }
+    .dot.active { background: var(--gold); transform: scale(1.3); }
+
+    /* ─── WHY US ─── */
+    .why-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center; max-width: 1300px; margin: 0 auto;
+    }
+    .why-image { position: relative; }
+    .why-image img { width: 100%; height: 550px; object-fit: cover; }
+    .why-badge {
+      position: absolute; bottom: -2rem; right: -2rem;
+      width: 140px; height: 140px;
+      background: var(--gold); color: var(--deep);
+      border-radius: 50%; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+    }
+    .why-badge-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem; font-weight: 300; line-height: 1;
+    }
+    .why-badge-text { font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; }
+    .why-features { margin-top: 2.5rem; }
+    .feature-item {
+      display: flex; gap: 1.2rem; align-items: flex-start;
+      padding: 1.5rem 0; border-bottom: 1px solid rgba(250,247,242,0.07);
+    }
+    .feature-icon {
+      width: 42px; height: 42px; border: 1px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0; color: var(--gold);
+    }
+    .feature-title {
+      font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--cream); margin-bottom: 0.3rem;
+    }
+    .feature-desc { font-size: 0.8rem; color: rgba(250,247,242,0.5); line-height: 1.7; }
+
+    /* ─── CONTACT ─── */
+    .contact { background: var(--deep); }
+    .contact-inner {
+      max-width: 1300px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start;
+    }
+    .contact-info h2 { margin-bottom: 1.5rem; }
+    .contact-info p { color: rgba(250,247,242,0.6); line-height: 1.9; font-size: 0.9rem; }
+    .contact-details { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
+    .contact-item { display: flex; gap: 1rem; align-items: center; }
+    .contact-icon {
+      width: 46px; height: 46px;
+      border: 1px solid rgba(201,168,76,0.4);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold); font-size: 1.1rem; flex-shrink: 0;
+    }
+    .contact-item-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-grey); }
+    .contact-item-value { font-size: 1rem; color: var(--cream); margin-top: 0.1rem; }
+    .contact-item-value a { color: var(--gold-light); text-decoration: none; }
+    .contact-item-value a:hover { color: var(--gold); }
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .form-group label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-grey); }
+    .form-group input, .form-group select, .form-group textarea {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(250,247,242,0.12);
+      color: var(--cream); padding: 0.9rem 1rem;
+      font-family: 'Tenor Sans', sans-serif; font-size: 0.9rem;
+      outline: none; transition: border-color 0.3s;
+      width: 100%;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--gold);
+    }
+    .form-group select option { background: var(--charcoal); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .btn-submit {
+      background: var(--gold); color: var(--deep); border: none;
+      padding: 1.1rem 2.5rem; font-family: 'Tenor Sans', sans-serif;
+      font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.3s, transform 0.2s; margin-top: 0.5rem;
+      align-self: flex-start;
+    }
+    .btn-submit:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #080603; padding: 3rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid rgba(201,168,76,0.15);
+      flex-wrap: wrap; gap: 1.5rem;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-weight: 300; letter-spacing: 0.2em;
+      color: var(--gold-light); text-transform: uppercase;
+    }
+    .footer-copy { font-size: 0.7rem; color: var(--warm-grey); letter-spacing: 0.1em; }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a { color: var(--warm-grey); text-decoration: none; font-size: 0.7rem; letter-spacing: 0.1em; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ─── GOLD DIVIDER ─── */
+    .divider {
+      display: flex; align-items: center; gap: 1rem;
+      max-width: 200px; margin: 2.5rem auto;
+    }
+    .divider-line { flex: 1; height: 1px; background: var(--gold); opacity: 0.4; }
+    .divider-diamond {
+      width: 6px; height: 6px; background: var(--gold);
+      transform: rotate(45deg);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 1.5rem 1.5rem; }
+      nav ul { display: none; }
+      section { padding: 5rem 1.5rem; }
+      .intro { grid-template-columns: 1fr; gap: 3rem; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .g1,.g2,.g3,.g4,.g5,.g6,.g7,.g8 { grid-column: auto; grid-row: auto; }
+      .gallery-grid > div { aspect-ratio: 4/3; }
+      .why-grid { grid-template-columns: 1fr; }
+      .why-badge { right: 1rem; bottom: -1rem; width: 110px; height: 110px; }
+      .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+      footer { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 600px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">North<span>Zaika</span> Events</div>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">North's Premier Event Planners</div>
+      <h1>
+        NorthZaika
+        <em>Events</em>
+      </h1>
+      <p class="hero-sub">Crafting unforgettable celebrations with elegance, passion, and meticulous attention to every detail.</p>
+      <div class="hero-btns">
+        <a href="#services" class="btn-primary">Explore Our Services</a>
+        <a href="#contact" class="btn-outline">Get In Touch</a>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      Scroll
+    </div>
+  </section>
+
+  <!-- INTRO / ABOUT -->
+  <section id="about" style="background: var(--deep);">
+    <div class="intro">
+      <div class="intro-text">
+        <div class="section-label">Our Story</div>
+        <h2>Where Every <em>Moment</em> Becomes a Memory</h2>
+        <p>NorthZaika Events was born from a single belief — that celebrations should be as unique as the people living them. From intimate gatherings to grand galas, we orchestrate experiences that linger long after the last dance.</p>
+        <p>Based in every location in North, our team of seasoned curators, designers, and coordinators brings together the finest vendors, venues, and vision to deliver flawless events that exceed every expectation.</p>
+        <div class="intro-stats">
+          <div class="stat">
+            <div class="stat-num">500+</div>
+            <div class="stat-label">Events Curated</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">8+</div>
+            <div class="stat-label">Years of Excellence</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">98%</div>
+            <div class="stat-label">Client Satisfaction</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">100+</div>
+            <div class="stat-label">Expert Chefs</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">100+</div>
+            <div class="stat-label">Professional Photographers</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">100+</div>
+            <div class="stat-label">Professional Event Decorators</div>
+          </div>
+        </div>
+      </div>
+      <div class="intro-image">
+        <img src="https://images.unsplash.com/photo-1478146059778-26028b07395a?w=900&q=85" alt="Elegant event setup" />
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="services-section">
+    <div class="services-header">
+      <div class="section-label">What We Do</div>
+      <h2>Our <em>Signature</em> Services</h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=85" alt="Wedding Events" />
+        <div class="service-num">01</div>
+        <div class="service-info">
+          <div class="service-icon">💍</div>
+          <div class="service-name">Weddings</div>
+          <div class="service-desc">Bespoke wedding ceremonies and receptions, crafted with love and orchestrated with precision — from intimate nikah to grand baraat.</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800&q=85" alt="Corporate Events" />
+        <div class="service-num">02</div>
+        <div class="service-info">
+          <div class="service-icon">🏛️</div>
+          <div class="service-name">Corporate Events</div>
+          <div class="service-desc">Product launches, galas, conferences, and team experiences that leave lasting impressions on clients and colleagues alike.</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&q=85" alt="Birthday & Private Parties" />
+        <div class="service-num">03</div>
+        <div class="service-info">
+          <div class="service-icon">✨</div>
+          <div class="service-name">Private Parties</div>
+          <div class="service-desc">Milestone birthdays, anniversaries, and exclusive soirées curated to reflect your personality and delight your guests.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery" style="background: var(--deep);">
+    <div class="gallery-header">
+      <div class="section-label">Portfolio</div>
+      <h2>Moments We've <em>Crafted</em></h2>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item g1">
+        <img src="https://png.pngtree.com/thumb_back/fh260/background/20241112/pngtree-a-grand-ballroom-with-elegant-white-tablecloths-and-gold-chairs-perfect-image_16521445.jpg" alt="Floral Decor" />
+      </div>
+      <div class="gallery-item g2">
+        <img src="https://images.unsplash.com/photo-1545232979-8bf68ee9b1af?w=700&q=85" alt="Floral Decor" />
+      </div>
+      <div class="gallery-item g3">
+        <img src="https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=600&q=85" alt="Table Setting" />
+      </div>
+      <div class="gallery-item g4">
+        <img src="https://images.unsplash.com/photo-1512316609839-ce289d3eba0a?w=700&q=85" alt="Celebration" />
+      </div>
+      <div class="gallery-item g5">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=85" alt="Event Detail" />
+      </div>
+      <div class="gallery-item g6">
+        <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=700&q=85" alt="Concert Event" />
+      </div>
+      <div class="gallery-item g7">
+        <img src="https://images.unsplash.com/photo-1555244162-803834f70033?w=700&q=85" alt="Food & Catering" />
+      </div>
+      <div class="gallery-item g8">
+        <img src="https://images.unsplash.com/photo-1502635385003-ee1e6a1a742d?w=600&q=85" alt="Night Event" />
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="testimonials-inner">
+      <div class="section-label" style="justify-content:center">
+        <span></span>Client Love<span></span>
+      </div>
+      <span class="quote-mark">"</span>
+      <div id="testimonialText" class="testimonial-text">
+        NorthZaika transformed our wedding into something beyond our wildest dreams. Every detail was perfect — we still receive compliments from guests months later.
+      </div>
+      <div id="testimonialAuthor" class="testimonial-author">— Priya & Arjun Sharma, Wedding 2024</div>
+      <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
+      <div class="testimonial-dots" id="dots">
+        <div class="dot active" onclick="setTestimonial(0)"></div>
+        <div class="dot" onclick="setTestimonial(1)"></div>
+        <div class="dot" onclick="setTestimonial(2)"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section style="background: var(--deep);">
+    <div class="why-grid">
+      <div class="why-image">
+        <img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=900&q=85" alt="Behind the scenes" />
+        <div class="why-badge">
+          <div class="why-badge-num">500+</div>
+          <div class="why-badge-text">Events Delivered</div>
+        </div>
+      </div>
+      <div class="why-content">
+        <div class="section-label">Why Choose Us</div>
+        <h2>Excellence in <em>Every</em> Detail</h2>
+        <div class="why-features">
+          <div class="feature-item">
+            <div class="feature-icon">🎯</div>
+            <div>
+              <div class="feature-title">Bespoke Planning</div>
+              <div class="feature-desc">No two events are alike. We design every celebration from scratch, tailored entirely to your vision and desires.</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">👑</div>
+            <div>
+              <div class="feature-title">White-Glove Service</div>
+              <div class="feature-desc">Dedicated coordinators available 24/7 throughout your event journey — from the first consultation to the final farewell.</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🌸</div>
+            <div>
+              <div class="feature-title">Premium Vendor Network</div>
+              <div class="feature-desc">Access to Delhi's finest florists, caterers, photographers, and entertainers — vetted for quality and reliability.</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">✅</div>
+            <div>
+              <div class="feature-title">Flawless Execution</div>
+              <div class="feature-desc">Meticulous timelines, backup plans, and on-ground teams ensure everything runs perfectly on the day.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <div class="contact-inner">
+      <div class="contact-info">
+        <div class="section-label">Get In Touch</div>
+        <h2>Let's Create Something <em>Extraordinary</em></h2>
+        <p>Ready to begin planning your dream event? Reach out to our team and we'll get back to you within 24 hours to discuss your vision.</p>
+        <div class="contact-details">
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div>
+              <div class="contact-item-label">Call Us Directly</div>
+              <div class="contact-item-value"><a href="tel:+919812698198">+91 9812698198</a></div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">💬</div>
+            <div>
+              <div class="contact-item-label">WhatsApp</div>
+              <div class="contact-item-value"><a href="https://wa.me/919812698198">+91 9812698198</a></div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <div class="contact-item-label">Location</div>
+              <div class="contact-item-value">Available in Multiple Cities, India</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🕐</div>
+            <div>
+              <div class="contact-item-label">Working Hours</div>
+              <div class="contact-item-value">Mon – Sun, 9 AM – 8 PM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="contact-form" id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Your Name</label>
+              <input type="text" placeholder="Full name" />
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="tel" placeholder="+91 XXXXX XXXXX" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="you@example.com" />
+          </div>
+          <div class="form-group">
+            <label>Event Type</label>
+            <select>
+              <option value="">Select event type</option>
+              <option>Wedding</option>
+              <option>Corporate Event</option>
+              <option>Birthday Party</option>
+              <option>Anniversary</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Event Date</label>
+            <input type="date" />
+          </div>
+          <div class="form-group">
+            <label>Tell Us About Your Vision</label>
+            <textarea placeholder="Describe your dream event, guest count, preferences..."></textarea>
+          </div>
+          <button class="btn-submit" onclick="handleSubmit()">Send Enquiry →</button>
+          <div id="formMsg" style="display:none; color:var(--gold); font-size:0.85rem; margin-top:0.5rem;">
+            ✓ Thank you! We'll be in touch within 24 hours.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">NorthZaika Events</div>
+    <div class="footer-copy">© 2025 NorthZaika Events. All rights reserved.</div>
+    <div class="footer-links">
+      <a href="#home">Home</a>
+      <a href="#services">Services</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    //Public Key
+  (function(){
+  emailjs.init("f5QMCAEmxAiR58eAk");
+})();
+
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const form = e.target;
+
+  const templateParams = {
+    name: form.querySelector('input[name="name"]').value,
+    email: form.querySelector('input[name="email"]').value,
+    phone: form.querySelector('input[name="phone"]').value,
+    message: form.querySelector('textarea[name="message"]').value
+  };
+
+  emailjs.send('service_q2a7qbw', 'template_sb7r5ei', templateParams)
+    .then(function() {
+      document.getElementById('formMsg').style.display = 'block';
+    }, function(error) {
+      console.log('FAILED...', error);
+    });
+  });
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
+    function animRing() { rx += (mx-rx)*0.12; ry += (my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animRing); }
+    animRing();
+
+    // Testimonials
+    const testimonials = [
+      { text: "NorthZaika transformed our wedding into something beyond our wildest dreams. Every detail was perfect — we still receive compliments from guests months later.", author: "— Priya & Arjun Sharma, Wedding 2024" },
+      { text: "Our annual corporate gala was executed with such professionalism and flair. The team anticipated every need before we even voiced it. Truly exceptional.", author: "— Rahul Mehta, Director, TechNova India" },
+      { text: "From the first call to the last dance, the NorthZaika team made our anniversary celebration absolutely magical. We couldn't have asked for more.", author: "— Sunita & Vikram Kapoor, Anniversary 2024" }
+    ];
+    let current = 0;
+    function setTestimonial(i) {
+      current = i;
+      document.getElementById('testimonialText').style.opacity = 0;
+      setTimeout(() => {
+        document.getElementById('testimonialText').textContent = testimonials[i].text;
+        document.getElementById('testimonialAuthor').textContent = testimonials[i].author;
+        document.getElementById('testimonialText').style.opacity = 1;
+      }, 300);
+      document.querySelectorAll('.dot').forEach((d,j) => d.classList.toggle('active', j===i));
+    }
+    document.getElementById('testimonialText').style.transition = 'opacity 0.3s';
+    setInterval(() => setTestimonial((current+1)%3), 5000);
+
+    // Form submit
+    function handleSubmit() {
+      document.getElementById('formMsg').style.display = 'block';
+      document.querySelector('.btn-submit').textContent = 'Sent ✓';
+      document.querySelector('.btn-submit').style.background = '#4a7c59';
+    }
+
+    // Scroll fade-in
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting) { e.target.style.opacity=1; e.target.style.transform='translateY(0)'; } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.service-card, .gallery-item, .feature-item, .stat').forEach(el => {
+      el.style.opacity = 0; el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+      observer.observe(el);
+    });
+
+  </script>
+</body>
+</html>
