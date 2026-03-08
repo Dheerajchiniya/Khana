@@ -784,36 +784,42 @@
     }
 
     // EmailJS
-    (function () {
-      emailjs.init("f5QMCAEmxAiR58eAk");
-    })();
+    // Replace these with your EmailJS keys
+(function () {
+  emailjs.init("f5QMCAEmxAiR58eAk");
+})();
 
-    document.getElementById("contactForm").addEventListener("submit", function (e) {
-      e.preventDefault();
+document.getElementById("contactForm").addEventListener("submit", function (e) {
+  e.preventDefault();
 
-      const form = e.target;
+  const form = e.target;
 
-      const templateParams = {
-        name: form.querySelector('input[name="name"]').value,
-        email: form.querySelector('input[name="email"]').value,
-        phone: form.querySelector('input[name="phone"]').value,
-        eventType: form.querySelector('select[name="eventType"]').value,
-        eventDate: form.querySelector('input[name="eventDate"]').value,
-        message: form.querySelector('textarea[name="message"]').value
-      };
+  const templateParams = {
+    name: form.querySelector('input[name="name"]').value,
+    email: form.querySelector('input[name="email"]').value,
+    phone: form.querySelector('input[name="phone"]').value,
+    eventType: form.querySelector('select[name="eventType"]').value,
+    eventDate: form.querySelector('input[name="eventDate"]').value,
+    message: form.querySelector('textarea[name="message"]').value
+  };
 
-      emailjs.send("service_q2a7qbw", "template_sb7r5ei", templateParams)
-        .then(function (response) {
-          console.log("SUCCESS!", response.status);
-          document.getElementById("formMsg").style.display = "block";
-          document.querySelector(".btn-submit").textContent = "Sent ✓";
-          document.querySelector(".btn-submit").style.background = "#4a7c59";
-          form.reset();
-        })
-        .catch(function (error) {
-          console.log("FAILED...", error);
-        });
+  emailjs.send("service_q2a7qbw", "service_q2a7qbwE", templateParams)
+    .then(function (response) {
+      console.log("SUCCESS!", response.status);
+      document.getElementById("formMsg").style.display = "block";
+      document.querySelector(".btn-submit").textContent = "Sent ✓";
+      document.querySelector(".btn-submit").style.background = "#4a7c59";
+      form.reset();
+    })
+    .catch(function (error) {
+      console.log("FAILED...", error);
+      // Add user-visible error message
+      document.getElementById("formMsg").textContent = "Failed to send. Please try again.";
+      document.getElementById("formMsg").style.color = "red";
+      document.getElementById("formMsg").style.display = "block";
     });
+});
   </script>
 </body>
 </html>
+
