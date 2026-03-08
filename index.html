@@ -803,7 +803,7 @@ document.getElementById("contactForm").addEventListener("submit", function (e) {
     message: form.querySelector('textarea[name="message"]').value
   };
 
-  emailjs.send("service_q2a7qbw", "service_q2a7qbwE", templateParams)
+  emailjs.send("service_q2a7qbw", "template_sb7r5ei", templateParams)
     .then(function (response) {
       console.log("SUCCESS!", response.status);
       document.getElementById("formMsg").style.display = "block";
@@ -822,4 +822,5 @@ document.getElementById("contactForm").addEventListener("submit", function (e) {
   </script>
 </body>
 </html>
+
 
