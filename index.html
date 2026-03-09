@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>NorthZaika Events — Crafting Unforgettable Moments</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Tenor+Sans&display=swap" rel="stylesheet"/>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -447,7 +447,6 @@
   <nav>
     <div class="logo">North<span>Zaika</span> Events</div>
     <ul>
-      <li><a href="#home">Home</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#services">Services</a></li>
       <li><a href="#gallery">Gallery</a></li>
@@ -694,45 +693,49 @@
           </div>
         </div>
       </div>
-      <form class="contact-form" id="contactForm">
-        <div class="form-row">
-          <div class="form-group">
-            <label>Your Name</label>
-            <input type="text" name="name" placeholder="Full name" />
+      <div>
+      <from onsubmit="sendMail(event)">
+        <div class="contact-form" id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Your Name</label>
+              <input type="text" placeholder="Full name" required />
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="tel" placeholder="+91 XXXXX XXXXX" required/>
+            </div>
           </div>
           <div class="form-group">
-            <label>Phone Number</label>
-            <input type="tel" name="phone" placeholder="+91 XXXXX XXXXX" />
+            <label>Email Address</label>
+            <input type="email" placeholder="you@example.com" required />
+          </div>
+          <div class="form-group">
+            <label>Event Type</label>
+            <select>
+              <option value="">Select event type</option>
+              <option>Wedding</option>
+              <option>Corporate Event</option>
+              <option>Birthday Party</option>
+              <option>Anniversary</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Event Date</label>
+            <input type="date" />
+          </div>
+          <div class="form-group">
+            <label>Tell Us About Your Vision</label>
+            <textarea placeholder="Describe your dream event, guest count, preferences..."></textarea>
+          </div>
+          <button class="btn-submit" onclick="handleSubmit()">Send Enquiry →</button>
+          <div id="formMsg" style="display:none; color:var(--gold); font-size:0.85rem; margin-top:0.5rem;">
+            ✓ Thank you! We'll be in touch within 24 hours.
+            </from>
           </div>
         </div>
-        <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" name="email" placeholder="you@example.com" />
-        </div>
-        <div class="form-group">
-          <label>Event Type</label>
-          <select name="eventType">
-            <option value="">Select event type</option>
-            <option>Wedding</option>
-            <option>Corporate Event</option>
-            <option>Birthday Party</option>
-            <option>Anniversary</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Event Date</label>
-          <input type="date" name="eventDate" />
-        </div>
-        <div class="form-group">
-          <label>Tell Us About Your Vision</label>
-          <textarea name="message" placeholder="Describe your dream event, guest count, preferences..."></textarea>
-        </div>
-        <button type="submit" class="btn-submit">Send Enquiry →</button>
-        <div id="formMsg" style="display:none; color:var(--gold); font-size:0.85rem; margin-top:0.5rem;">
-          ✓ Thank you! We'll be in touch within 24 hours.
-        </div>
-      </form>
+      </div>
     </div>
   </section>
 
@@ -749,79 +752,72 @@
   </footer>
 
   <script>
-    // Custom Cursor
-    document.addEventListener('mousemove', (e) => {
-      const cursor = document.getElementById('cursor');
-      const cursorRing = document.getElementById('cursorRing');
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-      cursorRing.style.left = e.clientX + 'px';
-      cursorRing.style.top = e.clientY + 'px';
-    });
+    //Enquiry
+(function(){
+emailjs.init("f5QMCAEmxAiR58eAk");
+})();
+
+function sendMail(event){
+event.preventDefault();
+
+emailjs.send("service_q2a7qbw","template_sb7r5ei",{
+name: document.getElementById("name").value,
+email: document.getElementById("email").value,
+phone: document.getElementById("phone").value,
+eventtype: document.getElementById("event type").value,
+eventdate: document.getElementById("event date").value,
+message: document.getElementById("message").value
+}).then(function(response){
+alert("Enquiry Sent Successfully!");
+}, function(error){
+alert("Failed to send enquiry");
+});
+}
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
+    function animRing() { rx += (mx-rx)*0.12; ry += (my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animRing); }
+    animRing();
 
     // Testimonials
     const testimonials = [
-      {
-        text: "NorthZaika transformed our wedding into something beyond our wildest dreams. Every detail was perfect — we still receive compliments from guests months later.",
-        author: "— Priya & Arjun Sharma, Wedding 2024"
-      },
-      {
-        text: "NorthZaika made our corporate gala unforgettable. The attention to detail was impeccable, and our clients were thoroughly impressed.",
-        author: "— Rajesh Kumar, CEO TechCorp"
-      },
-      {
-        text: "From start to finish, they handled everything for our anniversary party. It was magical, and we couldn't have asked for better service.",
-        author: "— Meera & Vikram, Anniversary 2024"
-      }
+      { text: "NorthZaika transformed our wedding into something beyond our wildest dreams. Every detail was perfect — we still receive compliments from guests months later.", author: "— Priya & Arjun Sharma, Wedding 2024" },
+      { text: "Our annual corporate gala was executed with such professionalism and flair. The team anticipated every need before we even voiced it. Truly exceptional.", author: "— Rahul Mehta, Director, TechNova India" },
+      { text: "From the first call to the last dance, the NorthZaika team made our anniversary celebration absolutely magical. We couldn't have asked for more.", author: "— Sunita & Vikram Kapoor, Anniversary 2024" }
     ];
+    let current = 0;
+    function setTestimonial(i) {
+      current = i;
+      document.getElementById('testimonialText').style.opacity = 0;
+      setTimeout(() => {
+        document.getElementById('testimonialText').textContent = testimonials[i].text;
+        document.getElementById('testimonialAuthor').textContent = testimonials[i].author;
+        document.getElementById('testimonialText').style.opacity = 1;
+      }, 300);
+      document.querySelectorAll('.dot').forEach((d,j) => d.classList.toggle('active', j===i));
+    }
+    document.getElementById('testimonialText').style.transition = 'opacity 0.3s';
+    setInterval(() => setTestimonial((current+1)%3), 5000);
 
-    function setTestimonial(index) {
-      document.getElementById("testimonialText").textContent = testimonials[index].text;
-      document.getElementById("testimonialAuthor").textContent = testimonials[index].author;
-      document.querySelectorAll('.dot').forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
-      });
+    // Form submit
+    function handleSubmit() {
+      document.getElementById('formMsg').style.display = 'block';
+      document.querySelector('.btn-submit').textContent = 'Sent ✓';
+      document.querySelector('.btn-submit').style.background = '#4a7c59';
     }
 
-    // EmailJS
-    // Replace these with your EmailJS keys
-(function () {
-  emailjs.init("f5QMCAEmxAiR58eAk");
-})();
-
-document.getElementById("contactForm").addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const form = e.target;
-
-  const templateParams = {
-    name: form.querySelector('input[name="name"]').value,
-    email: form.querySelector('input[name="email"]').value,
-    phone: form.querySelector('input[name="phone"]').value,
-    eventType: form.querySelector('select[name="eventType"]').value,
-    eventDate: form.querySelector('input[name="eventDate"]').value,
-    message: form.querySelector('textarea[name="message"]').value
-  };
-
-  emailjs.send("q2a7qbw", "sb7r5ei", templateParams)
-    .then(function (response) {
-      console.log("SUCCESS!", response.status);
-      document.getElementById("formMsg").style.display = "block";
-      document.querySelector(".btn-submit").textContent = "Sent ✓";
-      document.querySelector(".btn-submit").style.background = "#4a7c59";
-      form.reset();
-    })
-    .catch(function (error) {
-      console.log("FAILED...", error);
-      // Add user-visible error message
-      document.getElementById("formMsg").textContent = "Failed to send. Please try again.";
-      document.getElementById("formMsg").style.color = "red";
-      document.getElementById("formMsg").style.display = "block";
+    // Scroll fade-in
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting) { e.target.style.opacity=1; e.target.style.transform='translateY(0)'; } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.service-card, .gallery-item, .feature-item, .stat').forEach(el => {
+      el.style.opacity = 0; el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+      observer.observe(el);
     });
-});
   </script>
 </body>
 </html>
-
-
 
