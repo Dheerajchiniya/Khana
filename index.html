@@ -814,13 +814,6 @@ emailjs.init("iLJhqmG1Ru5q0r-ZP");
         showError('Please enter a valid phone number.');
         return;
       }
-      
-      try {
-        // Check if EmailJS is configured
-        if (EMAILJS_PUBLIC_KEY === "iLJhqmG1Ru5q0r-ZP") {
-          showError('EmailJS is not configured. Please add your credentials to the JavaScript section.');
-          return;
-        }
         
         // Show loading state
         const originalText = btn.textContent;
@@ -851,10 +844,10 @@ emailjs.init("iLJhqmG1Ru5q0r-ZP");
         console.log('template_mu9nasg:', EMAILJS_TEMPLATE_ID);
         
         const response = await emailjs.send(
-          service_3opvhrd,
-          template_mu9nasg,
+          EMAILJS_SERVICE_ID,
+          EMAILJS_TEMPLATE_ID,
           templateParams
-        );
+         );
         
         console.log('EmailJS Response:', response);
         
@@ -957,6 +950,7 @@ emailjs.init("iLJhqmG1Ru5q0r-ZP");
   </script>
 </body>
 </html>
+
 
 
 
